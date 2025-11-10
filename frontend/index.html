@@ -85,8 +85,8 @@
 
     <script>
       const API = "http://localhost:5000/api/user";
-      // ✅ ছবির পাথ ঠিক করে নিন। যদি ডিফল্ট ছবিও সার্ভারেই থাকে:
-      const DEFAULT_PIC = "./image/Profile Icon.webp"; // অথবা "http://localhost:5000/image/Profile Icon.webp"
+      
+      const DEFAULT_PIC = "./image/Profile Icon.webp"; 
 
       const userForm = document.getElementById("userForm");
       const myForm = document.getElementById("myForm");
@@ -99,7 +99,7 @@
       let editEmail = null;
       let usersData = []; 
       
-      // ✅ Open Modal
+      
       newUserBtn.onclick = () => {
         editEmail = null;
         document.getElementById("formTitle").innerText = "Add New User";
@@ -111,18 +111,18 @@
         userForm.classList.remove("hidden");
       };
 
-      // ✅ Close Modal
+      
       function closeForm() {
         userForm.classList.add("hidden");
       }
 
-      // ✅ Image Preview
+     
       imgInput.addEventListener("change", () => {
         const file = imgInput.files[0];
         if (file) previewImg.src = URL.createObjectURL(file);
       });
 
-      // ✅ Fetch Users
+      
       async function fetchUsers() {
         try {
             const res = await fetch(`${API}/getall`);
@@ -133,7 +133,7 @@
             let count = 1;
 
             usersData.forEach((u) => {
-                // ✅ u.profile_pic এ সম্পূর্ণ URL আসছে
+            
                 const imageSrc = u.profile_pic || DEFAULT_PIC; 
 
                 dataBody.innerHTML += `
@@ -162,7 +162,7 @@
 
       fetchUsers();
 
-      // ✅ Create or Update User
+     
       myForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
@@ -172,16 +172,16 @@
         let res;
 
         if (editEmail) {
-            // --- UPDATE (PUT /:email) ---
+           
             url = `${API}/${editEmail}`;
             method = "PUT";
             
             const updateData = {};
-            // শুধু Name আপডেট করার জন্য ডেটা নেওয়া
+            
             const nameValue = document.getElementById("name").value;
             if(nameValue) updateData.name = nameValue;
             
-            // পাসওয়ার্ড যদি দেওয়া হয় তবেই যোগ করা
+           
             const newPassword = document.getElementById("password").value;
             if(newPassword) updateData.password = newPassword;
 
@@ -192,25 +192,25 @@
             });
 
         } else {
-            // --- CREATE (POST /create) ---
+            
             url = `${API}/create`;
             method = "POST";
             
             const formData = new FormData();
-            // সব ইনপুট ডেটা FormData তে যোগ করা
+            
             ["name", "email"].forEach((id) =>
                 formData.append(id, document.getElementById(id).value)
             );
             
-            // পাসওয়ার্ড যোগ করা
+            
             formData.append("password", document.getElementById("password").value);
-            // ছবি ('pic' ফিল্ড) যোগ করা
+          
             if (imgInput.files[0]) formData.append("pic", imgInput.files[0]); 
             
             res = await fetch(url, { method, body: formData });
         }
 
-        // এরর হ্যান্ডলিং
+       
         if (!res.ok) {
             const errorData = await res.json();
             const action = editEmail ? "Update" : "Creation";
@@ -221,7 +221,7 @@
         closeForm();
       });
 
-      // ✅ Delete User
+      //  Delete User
       async function deleteUser(email) {
         if (!confirm("Are you sure?")) return;
         
@@ -240,7 +240,7 @@
         }
       }
 
-      // ✅ Edit User 
+      // Edit User 
       async function editUser(email) {
         editEmail = email;
 
@@ -260,7 +260,7 @@
 
         document.getElementById("name").value = u.name || "";
         
-        // profile_pic ব্যবহার করা
+      
         previewImg.src = u.profile_pic || DEFAULT_PIC; 
 
         userForm.classList.remove("hidden");
