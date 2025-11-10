@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon src/app.js",
-    "dev": "nodemon src/app.js"
+     "build": "vite build",
+    "dev": "nodemon src/app.js",
+    "preview": "vite preview"
   },
   "keywords": [],
   "author": "",
